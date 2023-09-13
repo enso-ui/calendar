@@ -1,6 +1,9 @@
 $colors: ("purple", #6807f9), ("yellow", #FFD700), ("red", #FF0000),
     ("pink", #FF1493), ("orange", #FF4500), ("green", #2ECC40),
-    ("brown", #D2691E), ("gray", #C0C0C0), ("blue", #00BFFF);
+    ("brown", #D2691E), ("gray", #C0C0C0), ("blue", #00BFFF),
+    ("olive", #808000), ("cyan", #00FFFF), ("magenta", #FF00FF),
+    ("teal", #008080), ("tan", #D2B48C);
+
 
 @each $color in $colors {
     .calendar-#{nth($color,1)} {
