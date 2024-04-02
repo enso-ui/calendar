@@ -90,7 +90,6 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import {
     faPlus, faFlag, faArrowsAltH, faCrosshairs,
 } from '@fortawesome/free-solid-svg-icons';
-import 'vue-cal/dist/vuecal.css';
 import { FilterState } from '@enso-ui/filters/renderless';
 import CalendarForm from './CalendarForm.vue';
 

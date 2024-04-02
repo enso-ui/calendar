@@ -56,3 +56,6 @@ export default {
     },
 };
 </script>
+<style lang="scss">
+@import '~vue-cal/dist/vuecal.css';
+</style>
