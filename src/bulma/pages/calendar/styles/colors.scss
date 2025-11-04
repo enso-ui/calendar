@@ -45,3 +45,14 @@ $colors: ("purple", #6807f9), ("yellow", #FFD700), ("red", #FF0000),
         }
     }
 }
+
+.vuecal__title button,
+.vuecal__arrow.vuecal__arrow--prev,
+.vuecal__arrow.vuecal__arrow--next {
+    color: inherit !important;
+    &:hover,
+    &:focus,
+    &:active {
+        color: inherit !important;
+    }
+}
