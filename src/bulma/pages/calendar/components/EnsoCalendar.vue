@@ -1,9 +1,9 @@
 <template>
-    <div class="calendar-wrapper box is-paddingless raises-on-hover"
+    <div class="calendar-wrapper box p-0"
         :class="$attrs.class">
         <vue-cal v-bind="$attrs"
             :time-from="7 * 60"
-            :locale="lang"
+            :locale="calendarLocale"
             :selected-date="date"
             :events="events"
             show-all-day-events
@@ -28,7 +28,7 @@
                         {{ i18n('Today') }}
                     </span>
                     <span class="icon is-small">
-                        <fa icon="crosshairs"
+                        <fa :icon="faCrosshairs"
                             size="xs"/>
                     </span>
                 </a>
@@ -45,7 +45,7 @@
                         <p class="has-text-centered"
                             v-if="hovering === item.id">
                                 {{ dateTimeFormat(item.daysCount,item.start) }}
-                                <fa icon="arrows-alt-h"/>
+                                <fa :icon="faArrowsAltH"/>
                                 {{ dateTimeFormat(item.daysCount,item.end) }}
                         </p>
                     </div>
@@ -62,15 +62,23 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
 import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import VueCal from 'vue-cal';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faFlag, faArrowsAltH } from '@fortawesome/free-solid-svg-icons';
+import en from 'vue-cal/dist/i18n/en.es.js';
+import ro from 'vue-cal/dist/i18n/ro.es.js';
+import { faArrowsAltH, faCrosshairs } from '@fortawesome/free-solid-svg-icons';
 import format from '@enso-ui/ui/src/modules/plugins/date-fns/format';
 import EventConfirmation from './EventConfirmation.vue';
+import { useStore } from '../../../../utils/pinia';
 
-library.add(faFlag, faArrowsAltH);
+const calendarLocales = { en, ro };
+const resolveLocale = lang => {
+    const locale = lang?.toLowerCase();
+
+    return calendarLocales[locale]
+        ?? calendarLocales[locale?.split('-')[0]]
+        ?? en;
+};
 
 export default {
     name: 'EnsoCalendar',
@@ -97,6 +105,8 @@ export default {
     emits: ['edit-event'],
 
     data: () => ({
+        faArrowsAltH,
+        faCrosshairs,
         events: [],
         vuecalEvent: null,
         confirm: null,
@@ -107,8 +117,15 @@ export default {
     }),
 
     computed: {
-        ...mapState(['enums', 'meta']),
-        ...mapGetters('preferences', ['lang']),
+        enums() {
+            return useStore('enums').enums;
+        },
+        lang() {
+            return useStore('preferences').lang;
+        },
+        calendarLocale() {
+            return resolveLocale(this.lang);
+        },
         event() {
             return this.vuecalEvent?.event;
         },
@@ -149,19 +166,7 @@ export default {
         },
     },
 
-    mounted() {
-        this.resize();
-
-        window.addEventListener('resize', this.resize);
-    },
-    beforeUnmount() {
-        window.removeEventListener('resize', this.resize);
-    },
-
     methods: {
-        resize() {
-            this.$el.style.height = `${document.body.clientHeight - 170}px`;
-        },
         fetch() {
             if (this.calendars) {
                 this.http.get(this.route('core.calendar.events.index'), { params: this.params })
@@ -268,22 +273,28 @@ export default {
 </script>
 
 <style lang="scss">
-    @import '../styles/colors.scss';
+    @use '../styles/colors.scss';
 
     .calendar-wrapper {
-        height: 100%;
+        min-height: calc(100vh - 10.625rem);
+
         .vuecal {
+            height: 100%;
             border-radius: inherit;
+
             .vuecal__body {
                 overflow: auto;
+
                 .vuecal__bg {
                     overflow: visible;
                 }
             }
+
             .vuecal__cell:hover {
                 cursor: pointer;
             }
         }
+
         .vuecal__event {
             .event-body {
                 white-space: pre;
@@ -308,7 +319,7 @@ export default {
                     transition-duration: .15s;
                     transition-property: transform;
                     border-radius: 4px;
-                    background-color: #fff;
+                    background-color: var(--bulma-text-strong);
                 }
             }
         .vuecal__time-column {

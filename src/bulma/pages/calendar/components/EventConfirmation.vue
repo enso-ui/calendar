@@ -38,12 +38,8 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faFlag, faArrowsAltH } from '@fortawesome/free-solid-svg-icons';
 import { Modal } from '@enso-ui/modal/bulma';
-
-library.add(faFlag, faArrowsAltH);
+import { useStore } from '../../../../utils/pinia';
 
 export default {
     name: 'EventConfirmation',
@@ -67,7 +63,9 @@ export default {
     emits: ['cancel', 'confirm'],
 
     computed: {
-        ...mapState(['enums']),
+        enums() {
+            return useStore('enums').enums;
+        },
         update() {
             return this.enums.eventUpdateType;
         },
@@ -76,5 +74,5 @@ export default {
 </script>
 
 <style lang="scss">
-    @import '../styles/colors.scss';
+    @use '../styles/colors.scss';
 </style>

@@ -5,11 +5,11 @@
             @close="calendar = null"
             @destroy="destroy"
             v-if="calendar"/>
-        <div class="box p-1 raises-on-hover">
-            <vue-cal class="small-calendar is-paddingless"
+        <div class="box p-1">
+            <vue-cal class="small-calendar p-0"
                 xsmall
                 today-button
-                :locale="lang"
+                :locale="calendarLocale"
                 :time="false"
                 hide-view-selector
                 active-view="month"
@@ -18,13 +18,13 @@
                 <template #today-button>
                     <span class="icon is-small is-clickable is-naked"
                         @click="$emit('change-date', new Date())">
-                        <fa icon="crosshairs"
+                        <fa :icon="faCrosshairs"
                             size="xs"/>
                     </span>
                 </template>
             </vue-cal>
         </div>
-        <div class="level is-marginless">
+        <div class="level m-0">
             <div class="level-left">
                 <div class="level-item">
                     <label class="label">
@@ -37,13 +37,13 @@
                     <a class="button is-naked">
                         <span class="icon"
                             @click="calendar = {}">
-                            <fa icon="plus"/>
+                            <fa :icon="faPlus"/>
                         </span>
                     </a>
                 </div>
             </div>
         </div>
-        <div class="level is-marginless calendar-item"
+        <div class="level m-0 calendar-item"
             v-for="item in calendars"
             :key="item.id">
             <div class="level-left">
@@ -68,7 +68,7 @@
                         <span class="icon"
                             @click="setCalendar(item)"
                             v-if="!item.readonly">
-                            <fa icon="pencil-alt"/>
+                            <fa :icon="faPen"/>
                         </span>
                     </a>
                 </div>
@@ -83,17 +83,25 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import VueCal from 'vue-cal';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import en from 'vue-cal/dist/i18n/en.es.js';
+import ro from 'vue-cal/dist/i18n/ro.es.js';
 import {
-    faPlus, faFlag, faArrowsAltH, faCrosshairs,
+    faPlus, faCrosshairs, faPen,
 } from '@fortawesome/free-solid-svg-icons';
 import { FilterState } from '@enso-ui/filters/renderless';
 import CalendarForm from './CalendarForm.vue';
+import { useStore } from '../../../../utils/pinia';
 
-library.add(faPlus, faFlag, faArrowsAltH, faCrosshairs);
+const calendarLocales = { en, ro };
+const resolveLocale = lang => {
+    const locale = lang?.toLowerCase();
+
+    return calendarLocales[locale]
+        ?? calendarLocales[locale?.split('-')[0]]
+        ?? en;
+};
 
 export default {
     name: 'CalendarFilter',
@@ -110,6 +118,9 @@ export default {
         apiVersion: 2,
         calendars: [],
         calendar: null,
+        faCrosshairs,
+        faPen,
+        faPlus,
         selected: [],
         filtered: {
             calendars: [],
@@ -117,7 +128,12 @@ export default {
     }),
 
     computed: {
-        ...mapGetters('preferences', ['lang']),
+        lang() {
+            return useStore('preferences').lang;
+        },
+        calendarLocale() {
+            return resolveLocale(this.lang);
+        },
     },
 
     methods: {
@@ -169,7 +185,7 @@ export default {
 </script>
 
 <style lang="scss">
-    @import '../styles/colors.scss';
+    @use '../styles/colors.scss';
 
     .small-calendar {
         height: 290px;

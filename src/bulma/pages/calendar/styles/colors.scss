@@ -1,3 +1,6 @@
+@use 'sass:color';
+@use 'sass:list';
+
 $colors: ("purple", #6807f9), ("yellow", #FFD700), ("red", #FF0000),
     ("pink", #FF1493), ("orange", #FF4500), ("green", #2ECC40),
     ("brown", #D2691E), ("gray", #C0C0C0), ("blue", #00BFFF),
@@ -12,35 +15,38 @@ $colors: ("purple", #6807f9), ("yellow", #FFD700), ("red", #FF0000),
     ("slate", #708090), ("chartreuse", #7FFF00);
 
 @each $color in $colors {
-    .calendar-#{nth($color,1)} {
-        background-color: nth($color,2);
+    $name: list.nth($color, 1);
+    $value: list.nth($color, 2);
+
+    .calendar-#{$name} {
+        background-color: $value;
     }
 
-    .is-checkradio[type="checkbox"].calendar-#{nth($color,1)} {
+    .is-checkradio[type="checkbox"].calendar-#{$name} {
         +label::before{
-            border-color: nth($color,2) !important;
+            border-color: $value !important;
         }
         +label:before{
-            border-color: nth($color,2) !important;
+            border-color: $value !important;
         }
         &:checked{
             +label::after{
-                border-color: nth($color,2) !important;
+                border-color: $value !important;
             }
             +label:after{
-                border-color: nth($color,2) !important;
+                border-color: $value !important;
             }
         }
         &:hover:not([disabled]){
             +label:before{
-                border-color: nth($color,2) !important;
+                border-color: $value !important;
             }
         }
     }
     .vuecal__event {
-        &.#{nth($color,1)} {
-            background-color: rgba(nth($color,2), 0.7);
-            border: 1px solid darken(nth($color,2), 10%);
+        &.#{$name} {
+            background-color: color.adjust($value, $alpha: -0.3);
+            border: 1px solid color.adjust($value, $lightness: -10%);
             color: #fff;
         }
     }

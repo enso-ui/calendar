@@ -1,6 +1,6 @@
 <template>
     <modal class="calendar-modal">
-        <enso-form class="box has-background-light"
+        <enso-form class="box"
             :path="path"
             ref="form"
             disable-state
@@ -17,14 +17,10 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import { EnsoForm } from '@enso-ui/forms/bulma';
 import { Modal } from '@enso-ui/modal/bulma';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faMinus, faPlus, faUserClock } from '@fortawesome/free-solid-svg-icons';
 import ColorSelect from './ColorSelect.vue';
-
-library.add(faUserClock, faPlus, faMinus);
+import { useStore } from '../../../../utils/pinia';
 
 export default {
     name: 'CalendarForm',
@@ -43,7 +39,6 @@ export default {
     emits: ['destroy', 'submit'],
 
     computed: {
-        ...mapState(['meta']),
         path() {
             return this.calendar.id
                 ? this.route('core.calendar.edit', { calendar: this.calendar.id })
@@ -56,6 +51,6 @@ export default {
 <style lang="scss">
     .modal.calendar-modal .modal-content {
         overflow: visible;
-        width: 400px;
+        width: min(90vw, 25rem);
     }
 </style>

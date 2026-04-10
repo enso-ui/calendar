@@ -1,6 +1,6 @@
 <template>
     <modal class="event-modal">
-        <enso-form class="box has-background-light"
+        <enso-form class="box"
             :path="path"
             ref="form"
             disable-state
@@ -33,10 +33,10 @@
                                    v-if="field.value.length < 3
                                         && !field.value.some(({ scheduled_at }) => !scheduled_at)">
                                     <span class="icon is-small">
-                                        <fa icon="plus"/>
+                                        <fa :icon="faPlus"/>
                                     </span>
                                     <span class="icon is-small">
-                                        <fa icon="user-clock"/>
+                                        <fa :icon="faUserClock"/>
                                     </span>
                                 </a>
                             </fade>
@@ -59,7 +59,7 @@
                                     <a class="button is-small is-naked mt-1"
                                         @click="field.value.splice(index, 1)">
                                         <span class="icon is-small">
-                                            <fa icon="minus"/>
+                                            <fa :icon="faMinus"/>
                                         </span>
                                     </a>
                                 </div>
@@ -82,7 +82,7 @@
                     <div class="button is-success" @click="submit">
                         <span>Update</span>
                         <span class="icon">
-                            <fa icon="check"/>
+                            <fa :icon="faCheck"/>
                         </span>
                     </div>
                 </div>
@@ -97,19 +97,18 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { EnsoForm, FormField } from '@enso-ui/forms/bulma';
 import { Modal } from '@enso-ui/modal/bulma';
 import { EnsoDatepicker } from '@enso-ui/datepicker/bulma';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faUserClock, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import {
+    faUserClock, faPlus, faMinus, faCheck,
+} from '@fortawesome/free-solid-svg-icons';
 import { Fade } from '@enso-ui/transitions';
 import format from '@enso-ui/ui/src/modules/plugins/date-fns/format';
 import ColorSelect from './ColorSelect.vue';
 import EventConfirmation from './EventConfirmation.vue';
-
-library.add(faUserClock, faPlus, faMinus);
+import { useStore } from '../../../../utils/pinia';
 
 export default {
     name: 'EventForm',
@@ -137,12 +136,21 @@ export default {
     emits: ['destroy', 'submit'],
 
     data: () => ({
+        faCheck,
+        faMinus,
+        faPlus,
+        faUserClock,
         timeFormat: 'H:i',
         confirm: null,
     }),
 
     computed: {
-        ...mapState(['meta', 'enums']),
+        meta() {
+            return useStore('app').meta;
+        },
+        enums() {
+            return useStore('enums').enums;
+        },
         isEdit() {
             return this.event.id;
         },
@@ -223,6 +231,6 @@ export default {
 <style lang="scss">
     .modal.event-modal .modal-content {
         overflow: visible;
-        width: 750px;
+        width: min(90vw, 46.875rem);
     }
 </style>

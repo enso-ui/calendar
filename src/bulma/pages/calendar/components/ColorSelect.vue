@@ -56,7 +56,7 @@ export default {
 </script>
 
 <style lang="scss">
-    @import '../styles/colors.scss';
+    @use '../styles/colors.scss';
     .calendar-color {
         width: 10px;
         height: 10px;

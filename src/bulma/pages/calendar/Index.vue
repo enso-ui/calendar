@@ -21,10 +21,10 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
 import EnsoCalendar from './components/EnsoCalendar.vue';
 import CalendarFilter from './components/CalendarFilter.vue';
 import EventForm from './components/EventForm.vue';
+import { useStore } from '../../../utils/pinia';
 
 export default {
     name: 'Index',
@@ -40,15 +40,14 @@ export default {
     }),
 
     created() {
-        this.hideFooter();
+        useStore('layout').hideFooter();
     },
 
     beforeUnmount() {
-        this.showFooter();
+        useStore('layout').showFooter();
     },
 
     methods: {
-        ...mapMutations('layout', ['showFooter', 'hideFooter']),
         reloadEvents() {
             this.$refs.calendar.fetch();
             this.event = null;
@@ -57,5 +56,5 @@ export default {
 };
 </script>
 <style lang="scss">
-@import '~vue-cal/dist/vuecal.css';
+@import 'vue-cal/dist/vuecal.css';
 </style>
