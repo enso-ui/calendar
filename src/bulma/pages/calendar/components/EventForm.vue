@@ -104,11 +104,12 @@ import { EnsoDatepicker } from '@enso-ui/datepicker/bulma';
 import {
     faUserClock, faPlus, faMinus, faCheck,
 } from '@fortawesome/free-solid-svg-icons';
+import { enums as useEnums } from '@enso-ui/enums/src/pinia/enums';
 import { Fade } from '@enso-ui/transitions';
+import { app as useApp } from '@enso-ui/ui/src/pinia/app';
 import format from '@enso-ui/ui/src/modules/plugins/date-fns/format';
 import ColorSelect from './ColorSelect.vue';
 import EventConfirmation from './EventConfirmation.vue';
-import { useStore } from '../../../../utils/pinia';
 
 export default {
     name: 'EventForm',
@@ -146,10 +147,10 @@ export default {
 
     computed: {
         meta() {
-            return useStore('app').meta;
+            return useApp().meta;
         },
         enums() {
-            return useStore('enums').enums;
+            return useEnums().enums;
         },
         isEdit() {
             return this.event.id;

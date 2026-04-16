@@ -20,7 +20,6 @@
 import { EnsoForm } from '@enso-ui/forms/bulma';
 import { Modal } from '@enso-ui/modal/bulma';
 import ColorSelect from './ColorSelect.vue';
-import { useStore } from '../../../../utils/pinia';
 
 export default {
     name: 'CalendarForm',

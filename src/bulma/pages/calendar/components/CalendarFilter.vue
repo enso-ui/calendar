@@ -91,8 +91,8 @@ import {
     faPlus, faCrosshairs, faPen,
 } from '@fortawesome/free-solid-svg-icons';
 import { FilterState } from '@enso-ui/filters/renderless';
+import { preferences as usePreferences } from '@enso-ui/ui/src/pinia/preferences';
 import CalendarForm from './CalendarForm.vue';
-import { useStore } from '../../../../utils/pinia';
 
 const calendarLocales = { en, ro };
 const resolveLocale = lang => {
@@ -129,7 +129,7 @@ export default {
 
     computed: {
         lang() {
-            return useStore('preferences').lang;
+            return usePreferences().lang;
         },
         calendarLocale() {
             return resolveLocale(this.lang);

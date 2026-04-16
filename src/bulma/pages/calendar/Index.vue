@@ -24,7 +24,7 @@
 import EnsoCalendar from './components/EnsoCalendar.vue';
 import CalendarFilter from './components/CalendarFilter.vue';
 import EventForm from './components/EventForm.vue';
-import { useStore } from '../../../utils/pinia';
+import { layout as useLayout } from '@enso-ui/ui/src/pinia/layout';
 
 export default {
     name: 'Index',
@@ -40,11 +40,11 @@ export default {
     }),
 
     created() {
-        useStore('layout').hideFooter();
+        useLayout().hideFooter();
     },
 
     beforeUnmount() {
-        useStore('layout').showFooter();
+        useLayout().showFooter();
     },
 
     methods: {

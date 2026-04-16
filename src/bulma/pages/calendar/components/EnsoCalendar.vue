@@ -67,9 +67,10 @@ import VueCal from 'vue-cal';
 import en from 'vue-cal/dist/i18n/en.es.js';
 import ro from 'vue-cal/dist/i18n/ro.es.js';
 import { faArrowsAltH, faCrosshairs } from '@fortawesome/free-solid-svg-icons';
+import { enums as useEnums } from '@enso-ui/enums/src/pinia/enums';
+import { preferences as usePreferences } from '@enso-ui/ui/src/pinia/preferences';
 import format from '@enso-ui/ui/src/modules/plugins/date-fns/format';
 import EventConfirmation from './EventConfirmation.vue';
-import { useStore } from '../../../../utils/pinia';
 
 const calendarLocales = { en, ro };
 const resolveLocale = lang => {
@@ -118,10 +119,10 @@ export default {
 
     computed: {
         enums() {
-            return useStore('enums').enums;
+            return useEnums().enums;
         },
         lang() {
-            return useStore('preferences').lang;
+            return usePreferences().lang;
         },
         calendarLocale() {
             return resolveLocale(this.lang);

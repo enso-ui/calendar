@@ -39,7 +39,7 @@
 
 <script>
 import { Modal } from '@enso-ui/modal/bulma';
-import { useStore } from '../../../../utils/pinia';
+import { enums as useEnums } from '@enso-ui/enums/src/pinia/enums';
 
 export default {
     name: 'EventConfirmation',
@@ -64,7 +64,7 @@ export default {
 
     computed: {
         enums() {
-            return useStore('enums').enums;
+            return useEnums().enums;
         },
         update() {
             return this.enums.eventUpdateType;
