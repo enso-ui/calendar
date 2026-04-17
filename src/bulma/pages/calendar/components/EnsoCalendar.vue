@@ -67,8 +67,8 @@ import VueCal from 'vue-cal';
 import en from 'vue-cal/dist/i18n/en.es.js';
 import ro from 'vue-cal/dist/i18n/ro.es.js';
 import { faArrowsAltH, faCrosshairs } from '@fortawesome/free-solid-svg-icons';
-import { enums as useEnums } from '@enso-ui/enums/src/pinia/enums';
-import { preferences as usePreferences } from '@enso-ui/ui/src/pinia/preferences';
+import { enums } from '@enso-ui/enums/src/pinia/enums';
+import { preferences } from '@enso-ui/ui/src/pinia/preferences';
 import format from '@enso-ui/ui/src/modules/plugins/date-fns/format';
 import EventConfirmation from './EventConfirmation.vue';
 
@@ -118,14 +118,8 @@ export default {
     }),
 
     computed: {
-        enums() {
-            return useEnums().enums;
-        },
-        lang() {
-            return usePreferences().lang;
-        },
         calendarLocale() {
-            return resolveLocale(this.lang);
+            return resolveLocale(preferences().lang);
         },
         event() {
             return this.vuecalEvent?.event;
@@ -151,7 +145,7 @@ export default {
         },
         isFrequent() {
             return this.event
-                && `${this.event.frequency}` !== this.enums.eventFrequencies.Once;
+                && `${this.event.frequency}` !== enums().enums.eventFrequencies.Once;
         },
         dateChanged() {
             return this.vuecalEvent && this.vuecalEvent.oldDate && this.vuecalEvent.newDate

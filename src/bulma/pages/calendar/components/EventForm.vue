@@ -104,9 +104,9 @@ import { EnsoDatepicker } from '@enso-ui/datepicker/bulma';
 import {
     faUserClock, faPlus, faMinus, faCheck,
 } from '@fortawesome/free-solid-svg-icons';
-import { enums as useEnums } from '@enso-ui/enums/src/pinia/enums';
+import { enums } from '@enso-ui/enums/src/pinia/enums';
 import { Fade } from '@enso-ui/transitions';
-import { app as useApp } from '@enso-ui/ui/src/pinia/app';
+import { app } from '@enso-ui/ui/src/pinia/app';
 import format from '@enso-ui/ui/src/modules/plugins/date-fns/format';
 import ColorSelect from './ColorSelect.vue';
 import EventConfirmation from './EventConfirmation.vue';
@@ -141,16 +141,12 @@ export default {
         faMinus,
         faPlus,
         faUserClock,
-        timeFormat: 'H:i',
         confirm: null,
     }),
 
     computed: {
         meta() {
-            return useApp().meta;
-        },
-        enums() {
-            return useEnums().enums;
+            return app().meta;
         },
         isEdit() {
             return this.event.id;
@@ -159,9 +155,6 @@ export default {
             return this.isEdit
                 ? this.route('core.calendar.events.edit', { event: this.event.id })
                 : this.route('core.calendar.events.create');
-        },
-        reminderFormat() {
-            return `${this.meta.dateFormat} ${this.timeFormat}`;
         },
     },
 
@@ -181,10 +174,6 @@ export default {
                 scheduled_at: null,
             };
         },
-        addReminder() {
-            this.$refs.form.field('reminders')
-                .value.push(this.reminder());
-        },
         date(date) {
             return format(date, 'Y-m-d');
         },
@@ -193,7 +182,7 @@ export default {
         },
         changeFrequency(frequency) {
             this.$refs.form.field('recurrence_ends_at')
-                .meta.hidden = frequency === this.enums.eventFrequencies.Once;
+                .meta.hidden = frequency === enums().enums.eventFrequencies.Once;
         },
         submit($event, updateType) {
             if (this.needConfirm(updateType)) {
@@ -223,7 +212,7 @@ export default {
         },
         needConfirm(updateType) {
             return this.isEdit && updateType === undefined
-                && this.enums.eventFrequencies.Once !== `${this.event.frequency}`;
+                && enums().enums.eventFrequencies.Once !== `${this.event.frequency}`;
         },
     },
 };

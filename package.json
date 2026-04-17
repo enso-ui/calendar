@@ -17,6 +17,10 @@
     "url": "https://github.com/enso-ui/calendar/issues"
   },
   "homepage": "https://github.com/enso-ui/calendar#readme",
+  "scripts": {
+    "test": "vitest",
+    "test:run": "vitest run"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.2.0",
     "@fortawesome/free-solid-svg-icons": "^7.2.0",
@@ -25,6 +29,7 @@
   },
   "peerDependencies": {
     "@enso-ui/datepicker": "^3.1.0",
+    "@enso-ui/enums": "^2.1.0",
     "@enso-ui/filters": "^3.3.0",
     "@enso-ui/forms": "^4.1.0",
     "@enso-ui/modal": "^3.2.0",
@@ -35,14 +40,19 @@
     "vue": "^3.5.0"
   },
   "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.1",
     "@enso-ui/datepicker": "^3.1.0",
+    "@enso-ui/enums": "^2.1.0",
     "@enso-ui/filters": "^3.3.0",
     "@enso-ui/forms": "^4.1.0",
     "@enso-ui/modal": "^3.2.0",
     "@enso-ui/select": "^4.1.0",
     "@enso-ui/transitions": "^2.1.0",
     "@enso-ui/ui": "^7.1.0",
+    "jsdom": "^26.1.0",
     "pinia": "^3.0.3",
+    "sass-embedded": "^1.93.2",
+    "vitest": "^3.2.4",
     "vue": "^3.5.0"
   }
 }
