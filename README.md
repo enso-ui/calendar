@@ -60,6 +60,28 @@ Events:
 Methods:
 - `reloadEvents()` refreshes the child calendar feed and closes the active event form.
 
+Internal page modules:
+- `CalendarFilter` drives the selected date and active calendars.
+- `EnsoCalendar` renders the event grid.
+- `EventForm` handles create/edit/destroy flows for one event.
+
+## Routes
+
+### `/calendar`
+
+Route name: `core.calendar.index`
+
+Page:
+- `src/bulma/pages/calendar/Index.vue`
+
+The shipped route is a top-level shell route. The page itself coordinates the filter sidebar, the timeline component, and the modal event form.
+
+## Companion Backend Package
+
+- [`laravel-enso/calendar`](https://docs.laravel-enso.com/backend/calendar.html) [↗](https://github.com/laravel-enso/calendar)
+
+The backend package provides the calendar/event endpoints, option feeds, and form contracts consumed by the page modules.
+
 ## Depends On
 
 - [`@enso-ui/datepicker`](https://docs.laravel-enso.com/frontend/datepicker.html) [↗](https://github.com/enso-ui/datepicker)
