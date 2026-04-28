@@ -1,4 +1,4 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faCalendarDays);
+library.add(faBell, faCalendarDays);
