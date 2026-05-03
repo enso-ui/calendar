@@ -20,7 +20,7 @@
             :on-event-dblclick="selectEvent"
             :on-event-create="setDragedEvent"
             @event-drag-create="eventDragCreated"
-            editable-events
+            :editable-events="editableEvents"
             :drag-to-create-threshold="0">
             <template #today-button>
                 <a class="button is-small">
@@ -108,6 +108,8 @@ export default {
     data: () => ({
         faArrowsAltH,
         faCrosshairs,
+        hasTouch: typeof window !== 'undefined'
+            && ('ontouchstart' in window || navigator.maxTouchPoints > 0),
         events: [],
         vuecalEvent: null,
         confirm: null,
@@ -123,6 +125,15 @@ export default {
         },
         event() {
             return this.vuecalEvent?.event;
+        },
+        editableEvents() {
+            return {
+                title: true,
+                drag: true,
+                resize: true,
+                create: !this.hasTouch,
+                delete: true,
+            };
         },
         params() {
             if (!this.interval) {
