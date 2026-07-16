@@ -163,7 +163,7 @@ export default {
 
     methods: {
         fetch() {
-            if (this.calendars) {
+            if (this.calendars.length) {
                 this.http.get(this.route('core.calendar.events.index'), { params: this.params })
                     .then(({ data }) => (this.events = data))
                     .catch(this.errorHandler);
